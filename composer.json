@@ -1,0 +1,51 @@
+{
+    "name": "timacdonald/callable-fake",
+    "description": "A testing utility that allows you to fake and capture invokations of a callable / Closure",
+    "license": "MIT",
+    "keywords": [
+        "callable",
+        "Closure",
+        "fake",
+        "testing"
+    ],
+    "authors": [
+        {
+            "name": "Tim MacDonald",
+            "email": "hello@timacdonald.me",
+            "homepage": "https://timacdonald.me"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "infection/infection": "^0.16.1",
+        "phpstan/phpstan": "^0.12",
+        "vimeo/psalm": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TiMacDonald\\CallableFake\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "clear",
+            "./vendor/bin/php-cs-fixer fix",
+            "./vendor/bin/psalm",
+            "./vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "clear",
+            "./vendor/bin/phpunit",
+            "./vendor/bin/infection --threads=4"
+        ]
+    }
+}
