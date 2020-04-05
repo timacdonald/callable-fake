@@ -7,6 +7,35 @@ on:
     branches: [ master ]
 
 jobs:
+  style:
+    runs-on: ubuntu-latest
+    name: "Style check"
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+        extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
+        coverage: none
+
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+          path: ~/.composer/cache/files
+          key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
+
+    - name: Install dependencies
+      run: composer install --verbose --prefer-dist --no-interaction --no-suggest
+
+    - name: Check platform requirements
+      run: composer check-platform-reqs
+
+    - name: Check style
+      run: ./vendor/bin/php-cs-fixer --verbose --no-interaction --dry-run
   mutations:
     runs-on: ubuntu-latest
     name: "Mutation tests"
