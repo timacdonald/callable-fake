@@ -2,9 +2,7 @@
 
 ![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![Latest Stable Version](https://poser.pugx.org/timacdonald/callable-fake/v/stable)](https://packagist.org/packages/timacdonald/callable-fake) [![Total Downloads](https://poser.pugx.org/timacdonald/callable-fake/downloads)](https://packagist.org/packages/timacdonald/callable-fake) [![License](https://poser.pugx.org/timacdonald/callable-fake/license)](https://packagist.org/packages/timacdonald/callable-fake)
 
-If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, testing it can create some duplicated boilerplate. This class wraps up that boilerplate and adds some named assertions to better express what the test is doing.
-
-The syntactic sugar gives you an API that is very much inspired by Laravel's service fakes.
+If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, testing it can create some duplicated boilerplate. This class wraps up that boilerplate and adds some named assertions. The named assertions gives you an API that is very much inspired by Laravel's service fakes. It may be a little more verbose, but it changes the language of the tests to better reflect what is going on.
 
 ## Installation
 
