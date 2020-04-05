@@ -32,10 +32,10 @@ jobs:
       run: composer install --verbose --prefer-dist --no-interaction --no-suggest
 
     - name: Check platform requirements
-      run: composer check-platform-reqs
+      run: composer check-platform-reqs --verbose
 
     - name: Check style
-      run: ./vendor/bin/php-cs-fixer fix --verbose --no-interaction --dry-run
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
   mutations:
     runs-on: ubuntu-latest
     name: "Mutation tests"
@@ -58,19 +58,19 @@ jobs:
           key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
 
     - name: Install dependencies
-      run: composer install --verbose --prefer-dist --no-interaction --no-suggest
+      run: composer install --prefer-dist --no-interaction --no-suggest --verbose
 
     - name: Check platform requirements
-      run: composer check-platform-reqs
+      run: composer check-platform-reqs --verbose
 
     - name: Mutation tests
-      run: ./vendor/bin/infection --show-mutations --verbose --min-msi=100 --no-interaction --ansi
+      run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-interaction --verbose
   tests:
     strategy:
       matrix:
         php: ['7.1', '7.2', '7.3', '7.4']
         phpunit: ['7.*', '8.*', '9.*']
-        dependency-version: [prefer-lowest, prefer-stable]
+        dependency-version: ['prefer-lowest', 'prefer-stable']
         exclude:
             - phpunit: '8.*'
               php: '7.1'
@@ -102,16 +102,16 @@ jobs:
     - name: Install dependencies
       run: |
           composer remove infection/infection --dev --verbose
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --verbose --no-interaction --no-update
-          composer update --${{ matrix.dependency-version }} --verbose --prefer-dist --no-interaction --no-suggest
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update --verbose
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest --verbose
 
     - name: Check platform requirements
-      run: composer check-platform-reqs
+      run: composer check-platform-reqs --verbose
 
     - name: Run tests
       if: matrix.phpunit == '7.*' || matrix.phpunit == '8.*'
-      run: ./vendor/bin/phpunit --coverage-text --debug
+      run: ./vendor/bin/phpunit --coverage-text --debug --verbose
 
     - name: Run tests
       if: matrix.phpunit != '7.*' && matrix.phpunit != '8.*'
-      run: ./vendor/bin/phpunit --coverage-text --debug --order-by=random
+      run: ./vendor/bin/phpunit --coverage-text --debug --order-by=random --verbose
