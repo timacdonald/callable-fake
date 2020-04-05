@@ -109,4 +109,4 @@ jobs:
       run: composer check-platform-reqs
 
     - name: Run tests
-      run: ./vendor/bin/phpunit --verbose
+      run: ./vendor/bin/phpunit --coverage-text --debug --order-by=random
