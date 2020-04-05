@@ -165,11 +165,11 @@ If you need to specify return values, this _could_ be an indicator that this is 
 
 ```php
 $callable = new CallableFake(function (Depdency $dependecy): bool {
-    if (Str::startsWith($dependecy->name, 'illuminate/') {
-        return 'core';
+    if ($dependecy->version === '*') {
+        return '😧';
     }
 
-    return 'third-party';
+    return '😀';
 });
 ```
 
