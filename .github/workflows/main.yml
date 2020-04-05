@@ -63,8 +63,8 @@ jobs:
     - name: Check platform requirements
       run: composer check-platform-reqs
 
-    - name: Run tests
-      run: ./vendor/bin/infection --show-mutations --no-progress --verbose --min-msi=100 --no-interaction --ansi
+    - name: Mutation tests
+      run: ./vendor/bin/infection --show-mutations --verbose --min-msi=100 --no-interaction --ansi
   tests:
     strategy:
       matrix:
