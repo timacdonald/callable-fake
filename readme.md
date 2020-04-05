@@ -59,7 +59,7 @@ public function testEachLoopsOverAllDependencies(): void
     // arrange
     $callable = new CallableFake();
     $expected = factory(Dependency::class)->times(2)->create();
-    $repo = $this->app[DatabaseDependencyRepository::class];
+    $repo = $this->app[DependencyRepository::class];
 
     // act
     $repo->each($callable);
