@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![Latest Stable Version](https://poser.pugx.org/timacdonald/callable-fake/v/stable)](https://packagist.org/packages/timacdonald/callable-fake) [![Total Downloads](https://poser.pugx.org/timacdonald/callable-fake/downloads)](https://packagist.org/packages/timacdonald/callable-fake) [![License](https://poser.pugx.org/timacdonald/callable-fake/license)](https://packagist.org/packages/timacdonald/callable-fake)
 
-If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal side-effects, testing it can create some duplicated boilder plate. This class wraps up that boilerplate and adds some named assertions to better express what the test is doing.
+If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, testing it can create some duplicated boilder plate. This class wraps up that boilerplate and adds some named assertions to better express what the test is doing.
 
 ## Installation
 
@@ -23,7 +23,7 @@ interface DependencyRepository
 }
 ```
 
-This interface accepts a callback, and under the hood loops through all "dependecies" and passes each one to the callback.
+This interface accepts a callback, and under the hood loops through all "dependecies" and passes each one to the callback for the developer to work with.
 
 ### Before
 
@@ -34,11 +34,11 @@ public function testEachLoopsOverAllDependencies(): void
 {
     // arrange
     $received = [];
-    $expected = factory(Dependecy::class)->times(2)->create();
+    $expected = factory(Dependency::class)->times(2)->create();
     $repo = $this->app[DependencyRepository::class];
 
     // act
-    $repo->each(function (Dependecy $dependency) use (&$received): void {
+    $repo->each(function (Dependency $dependency) use (&$received): void {
         $received[] = $dependecy;
     });
 
@@ -58,7 +58,7 @@ public function testEachLoopsOverAllDependencies(): void
 {
     // arrange
     $callable = new CallableFake();
-    $expected = factory(Dependecy::class)->times(2)->create();
+    $expected = factory(Dependency::class)->times(2)->create();
     $repo = $this->app[DatabaseDependencyRepository::class];
 
     // act
@@ -66,10 +66,10 @@ public function testEachLoopsOverAllDependencies(): void
 
     // assert
     $callable->assertTimesInvoked(2);
-    $callable->assertCalled(function ($dependency) use ($expected): bool {
+    $callable->assertCalled(function (Depedency $dependency) use ($expected): bool {
         return $dependency->is($expected[0]);
     });
-    $callable->assertCalled(function ($dependency) use ($expected): bool {
+    $callable->assertCalled(function (Dependency $dependency) use ($expected): bool {
         return $dependency->is($expected[1]);
     });
 }
@@ -90,7 +90,7 @@ $callable->assertCalled(function (Dependency $dependecy): bool {
 ### assertNotCalled(callable $callback): self
 
 ```php
-$callable->assertNotCalled(function (Dependecy $dependency): bool {
+$callable->assertNotCalled(function (Dependency $dependency): bool {
     return Str::startsWith($dependecy->name, 'timacdonald/');
 });
 ```
@@ -123,6 +123,18 @@ $callable->assertNotInvoked();
 
 ## Non-assertion API
 
+### asClosure(): Closure
+
+If the method is type-hinted with `\Closure` instead of callable, you can use this method to transform the callable to an instance of `\Closure`.
+
+```php
+$callable = new CallableFake;
+
+$thing->closureTypeHintedMethod($callable->asClosure());
+
+$callable->assertInvoked();
+```
+
 ### wasInvoked(): bool
 
 ```php
@@ -139,11 +151,25 @@ if ($callable->wasNotInvoked()) {
 }
 ```
 
-### called(callable $callback): bool
+### called(callable $callback): array
 
 ```php
-$spatiePackages = $callable->called(function (Dependecy $dependecy): bool {
+$invocationArguments = $callable->called(function (Dependency $dependecy): bool {
     return Str::startsWith($dependecy->name, 'spatie/')
+});
+```
+
+## Specifying return values
+
+If you need to specify return values, this _could_ be an indicator that this is not the right tool for the job. But there are some cases where return values determine control flow, so it can be handy, in which case you can pass the contructor a "return resolver" closure.
+
+```php
+$callable = new CallableFake(function (Depdency $dependecy): bool {
+    if (Str::startsWith($dependecy->name, 'illuminate/') {
+        return 'core';
+    }
+
+    return 'third-party';
 });
 ```
 
