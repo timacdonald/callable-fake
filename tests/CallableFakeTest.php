@@ -262,4 +262,31 @@ class CallableFakeTest extends TestCase
 
         $this->assertNull($fake(0));
     }
+
+    public function testWasInvokedWhenInvoked(): void
+    {
+        $callable = new CallableFake();
+
+        $this->assertFalse($callable->wasInvoked());
+        $this->assertTrue($callable->wasNotInvoked());
+
+        $callable();
+
+        $this->assertTrue($callable->wasInvoked());
+        $this->assertFalse($callable->wasNotInvoked());
+    }
+
+    public function testCanGetInvocationArguments(): void
+    {
+        $callable = new CallableFake();
+        $callable('a', 'b');
+        $callable('c', 'd');
+        $callable('x', 'y');
+
+        $invocationArguments = $callable->called(static function (string $arg) {
+            return \in_array($arg, ['a', 'c'], true);
+        });
+
+        $this->assertSame([['a', 'b'], ['c', 'd']], $invocationArguments);
+    }
 }
