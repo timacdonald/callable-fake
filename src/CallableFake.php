@@ -15,14 +15,19 @@ class CallableFake
     private $invocations = [];
 
     /**
-     * @var \Closure
+     * @var callable
      */
     private $returnResolver;
 
-    public function __construct(Closure $callback = null)
+    public function __construct(callable $callback = null)
     {
         $this->returnResolver = $callback ?? static function (): void {
         };
+    }
+
+    public static function withReturnResolver(callable $callback): self
+    {
+        return new self($callback);
     }
 
     /**

@@ -161,10 +161,10 @@ $invocationArguments = $callable->called(function (Dependency $dependency): bool
 
 ## Specifying return values
 
-If you need to specify return values, this _could_ be an indicator that this is not the right tool for the job. But there are some cases where return values determine control flow, so it can be handy, in which case you can pass the contructor a "return resolver" closure.
+If you need to specify return values, this _could_ be an indicator that this is not the right tool for the job. But there are some cases where return values determine control flow, so it can be handy, in which case you can pass a "return resolver" to the named constructor `withReturnResolver`.
 
 ```php
-$callable = new CallableFake(function (Dependency $dependency): bool {
+$callable = CallableFake::withReturnResolver(function (Dependency $dependency): bool {
     if ($dependency->version === '*') {
         return '🤠';
     }

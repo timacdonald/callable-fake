@@ -245,7 +245,7 @@ class CallableFakeTest extends TestCase
 
     public function testCanSpecifyInvocationReturnTypes(): void
     {
-        $fake = new CallableFake(static function (int $index): string {
+        $fake = CallableFake::withReturnResolver(static function (int $index): string {
             return [
                 0 => 'a',
                 1 => 'b',
