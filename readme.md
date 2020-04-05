@@ -39,7 +39,7 @@ public function testEachLoopsOverAllDependencies(): void
 
     // act
     $repo->each(function (Dependency $dependency) use (&$received): void {
-        $received[] = $dependecy;
+        $received[] = $dependency;
     });
 
     // assert
@@ -82,7 +82,7 @@ All assertions are chainable.
 ### assertCalled(callable $callback): self
 
 ```php
-$callable->assertCalled(function (Dependency $dependecy): bool {
+$callable->assertCalled(function (Dependency $dependency): bool {
     return Str::startsWith($dependency->name, 'spatie/');
 });
 ```
@@ -91,7 +91,7 @@ $callable->assertCalled(function (Dependency $dependecy): bool {
 
 ```php
 $callable->assertNotCalled(function (Dependency $dependency): bool {
-    return Str::startsWith($dependecy->name, 'timacdonald/');
+    return Str::startsWith($dependency->name, 'timacdonald/');
 });
 ```
 
@@ -99,7 +99,7 @@ $callable->assertNotCalled(function (Dependency $dependency): bool {
 
 ```php
 $callable->assertCalledTimes(function ($dependency): bool {
-    return Str::startsWith($dependecy, 'spatie/');
+    return Str::startsWith($dependency, 'spatie/');
 }, 999);
 ```
 
@@ -154,8 +154,8 @@ if ($callable->wasNotInvoked()) {
 ### called(callable $callback): array
 
 ```php
-$invocationArguments = $callable->called(function (Dependency $dependecy): bool {
-    return Str::startsWith($dependecy->name, 'spatie/')
+$invocationArguments = $callable->called(function (Dependency $dependency): bool {
+    return Str::startsWith($dependency->name, 'spatie/')
 });
 ```
 
@@ -164,8 +164,8 @@ $invocationArguments = $callable->called(function (Dependency $dependecy): bool 
 If you need to specify return values, this _could_ be an indicator that this is not the right tool for the job. But there are some cases where return values determine control flow, so it can be handy, in which case you can pass the contructor a "return resolver" closure.
 
 ```php
-$callable = new CallableFake(function (Depdency $dependecy): bool {
-    if ($dependecy->version === '*') {
+$callable = new CallableFake(function (Dependency $dependency): bool {
+    if ($dependency->version === '*') {
         return '🤠';
     }
 
