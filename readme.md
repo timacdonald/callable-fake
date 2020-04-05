@@ -171,6 +171,13 @@ $callable = new CallableFake(function (Dependency $dependency): bool {
 
     return '😀';
 });
+
+// You would not generally be calling this yourself, this is simply to demonstate
+// what will happen under the hood...
+
+$emoji = $callable(new Dependecy(['version' => '*']));
+
+// $emoji === '🤠';
 ```
 
 ## Thanksware
