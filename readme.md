@@ -4,6 +4,8 @@
 
 If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, testing it can create some duplicated boilerplate. This class wraps up that boilerplate and adds some named assertions to better express what the test is doing.
 
+The syntactic sugar gives you an API that is very much inspired by Laravel's service fakes.
+
 ## Installation
 
 You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/callable-fake).
