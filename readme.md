@@ -1,4 +1,4 @@
-# Callable / Closure testing fake for PHPUnit
+# Callable / Closure testing fake
 
 ![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![Latest Stable Version](https://poser.pugx.org/timacdonald/callable-fake/v/stable)](https://packagist.org/packages/timacdonald/callable-fake) [![Total Downloads](https://poser.pugx.org/timacdonald/callable-fake/downloads)](https://packagist.org/packages/timacdonald/callable-fake) [![License](https://poser.pugx.org/timacdonald/callable-fake/license)](https://packagist.org/packages/timacdonald/callable-fake)
 
