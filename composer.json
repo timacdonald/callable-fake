@@ -20,10 +20,10 @@
         "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.0",
         "infection/infection": "^0.16.1",
         "phpstan/phpstan": "^0.12",
-        "vimeo/psalm": "^3.0"
+        "vimeo/psalm": "^3.0",
+        "timacdonald/php-style": "dev-master"
     },
     "autoload": {
         "psr-4": {
