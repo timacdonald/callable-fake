@@ -68,16 +68,9 @@ jobs:
   tests:
     strategy:
       matrix:
-        php: ['7.1', '7.2', '7.3', '7.4']
-        phpunit: ['7.*', '8.*', '9.*']
+        php: ['7.3', '7.4']
+        phpunit: ['9.*']
         dependency-version: ['prefer-lowest', 'prefer-stable']
-        exclude:
-            - phpunit: '8.*'
-              php: '7.1'
-            - phpunit: '9.*'
-              php: '7.1'
-            - phpunit: '9.*'
-              php: '7.2'
 
     runs-on: ubuntu-latest
     name: "PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
@@ -107,10 +100,6 @@ jobs:
 
     - name: Check platform requirements
       run: composer check-platform-reqs --verbose
-
-    - name: Run tests
-      if: matrix.phpunit == '7.*' || matrix.phpunit == '8.*'
-      run: ./vendor/bin/phpunit --coverage-text --debug --verbose
 
     - name: Run tests
       if: matrix.phpunit != '7.*' && matrix.phpunit != '8.*'
