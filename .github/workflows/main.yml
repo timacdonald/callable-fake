@@ -18,7 +18,6 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '7.4'
-                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
                   coverage: none
 
             - name: Cache dependencies
@@ -47,7 +46,6 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '7.4'
-                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
                   coverage: pcov
 
             - name: Cache dependencies
@@ -91,7 +89,6 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
                   coverage: none
 
             - name: Cache dependencies
