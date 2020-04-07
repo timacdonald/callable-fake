@@ -1,117 +1,118 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
 jobs:
-  style:
-    runs-on: ubuntu-latest
-    name: "Style check"
+    style:
+        runs-on: ubuntu-latest
+        name: "Style check"
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
 
-    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
+                  coverage: none
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
-        coverage: none
+            - name: Cache dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ~/.composer/cache/files
+                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
 
-    - name: Cache dependencies
-      uses: actions/cache@v1
-      with:
-          path: ~/.composer/cache/files
-          key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
+            - name: Install dependencies
+              run: composer install --verbose --prefer-dist --no-interaction --no-suggest
 
-    - name: Install dependencies
-      run: composer install --verbose --prefer-dist --no-interaction --no-suggest
+            - name: Check platform requirements
+              run: composer check-platform-reqs --verbose
 
-    - name: Check platform requirements
-      run: composer check-platform-reqs --verbose
+            - name: Check style
+              run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
 
-    - name: Check style
-      run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
-  mutations:
-    runs-on: ubuntu-latest
-    name: "Mutation tests"
+    mutations:
+        runs-on: ubuntu-latest
+        name: "Mutation tests"
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
 
-    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
+                  coverage: pcov
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
-        coverage: pcov
+            - name: Cache dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ~/.composer/cache/files
+                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
 
-    - name: Cache dependencies
-      uses: actions/cache@v1
-      with:
-          path: ~/.composer/cache/files
-          key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-interaction --no-suggest --verbose
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-interaction --no-suggest --verbose
+            - name: Check platform requirements
+              run: composer check-platform-reqs --verbose
 
-    - name: Check platform requirements
-      run: composer check-platform-reqs --verbose
+            - name: Mutation tests
+              run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-interaction --verbose
+              env:
+                  INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
-    - name: Mutation tests
-      run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-interaction --verbose
-  tests:
-    strategy:
-      matrix:
-        php: ['7.1', '7.2', '7.3', '7.4']
-        phpunit: ['7.*', '8.*', '9.*']
-        dependency-version: ['prefer-lowest', 'prefer-stable']
-        exclude:
-            - phpunit: '8.*'
-              php: '7.1'
-            - phpunit: '9.*'
-              php: '7.1'
-            - phpunit: '9.*'
-              php: '7.2'
+    tests:
+        runs-on: ubuntu-latest
+        name: "PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
+        strategy:
+            matrix:
+                php: ['7.1', '7.2', '7.3', '7.4']
+                phpunit: ['^6.0', '^7.0', '^8.0', '^9.0']
+                dependency-version: ['prefer-lowest', 'prefer-stable']
+                exclude:
+                    - phpunit: '^8.0'
+                      php: '7.1'
+                    - phpunit: '^9.0'
+                      php: '7.1'
+                    - phpunit: '^9.0'
+                      php: '7.2'
 
-    runs-on: ubuntu-latest
-    name: "PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
 
-    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
+                  coverage: none
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        extensions: dom, filter, json, libxml, mbstring, pcre, Phar, Reflection, SimpleXML, SPL, tokenizer, xml, xmlwriter
-        coverage: none
+            - name: Cache dependencies
+              uses: actions/cache@v1
+              with:
+                  path: ~/.composer/cache/files
+                  key: dependencies-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v1
 
-    - name: Cache dependencies
-      uses: actions/cache@v1
-      with:
-          path: ~/.composer/cache/files
-          key: dependencies-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v1
+            - name: Install dependencies
+              run: |
+                  composer remove infection/infection --dev --verbose
+                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update --verbose
+                  composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest --verbose
 
-    - name: Install dependencies
-      run: |
-          composer remove infection/infection --dev --verbose
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update --verbose
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest --verbose
+            - name: Check platform requirements
+              run: composer check-platform-reqs --verbose
 
-    - name: Check platform requirements
-      run: composer check-platform-reqs --verbose
+            - name: Run tests
+              if: matrix.phpunit == '^6.0' || matrix.phpunit == '^7.0' || matrix.phpunit == '^8.0'
+              run: ./vendor/bin/phpunit --coverage-text --debug --verbose
 
-    - name: Run tests
-      if: matrix.phpunit == '7.*' || matrix.phpunit == '8.*'
-      run: ./vendor/bin/phpunit --coverage-text --debug --verbose
-
-    - name: Run tests
-      if: matrix.phpunit != '7.*' && matrix.phpunit != '8.*'
-      run: ./vendor/bin/phpunit --coverage-text --debug --order-by=random --verbose
+            - name: Run tests
+              if: matrix.phpunit == '^6.0' && matrix.phpunit == '^7.0' && matrix.phpunit == '^8.0'
+              run: ./vendor/bin/phpunit --coverage-text --debug --order-by=random --verbose
