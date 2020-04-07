@@ -180,7 +180,7 @@ $emoji = $callable(new Dependecy(['version' => '*']));
 // $emoji === '🤠';
 ```
 
-# Developing and testing
+## Developing and testing
 
 Although this package requires `"PHP": "^7.1"`, in order to install and develop locally, you should be running a recent version of PHP to ensure compatibility with the development tools.
 
