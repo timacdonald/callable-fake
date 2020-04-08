@@ -10,39 +10,11 @@ on:
         branches: [ master ]
 
 jobs:
-    style:
+    lint:
         runs-on: ubuntu-latest
-        name: "Style check"
+        name: "Lint"
         steps:
-            - name: checkout code
-              uses: actions/checkout@v2
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '7.4'
-                  coverage: none
-
-            - name: Cache dependencies
-              uses: actions/cache@v1
-              with:
-                  path: ~/.composer/cache/files
-                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
-
-            - name: Install dependencies
-              run: composer install --no-suggest --no-interaction --verbose
-
-            - name: Check platform requirements
-              run: composer check-platform-reqs --verbose
-
-            - name: Check style
-              run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
-
-    mutations:
-        runs-on: ubuntu-latest
-        name: "Mutation tests"
-        steps:
-            - name: checkout code
+            - name: Checkout code
               uses: actions/checkout@v2
 
             - name: Setup PHP
@@ -63,14 +35,26 @@ jobs:
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
 
-            - name: Mutation tests
-              run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-interaction --verbose
+            - name: PHP-CS-Fixer
+              run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
+
+            - name: composer normalize
+              run: composer normalize --dry-run --no-interaction --verbose
+
+            - name: Infection
+              run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-progress --no-interaction --verbose
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
+            - name: Psalm
+              run: ./vendor/bin/psalm --shepherd --no-progress
+
+            - name: PHPStan
+              run: ./vendor/bin/phpstan --no-progress --no-interaction --verbose
+
     tests:
         runs-on: ubuntu-latest
-        name: "PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
+        name: "Test suite on PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
         strategy:
             matrix:
                 php: ['7.1', '7.2', '7.3', '7.4']
@@ -103,7 +87,7 @@ jobs:
             - name: Install dependencies
               run: |
                   composer remove infection/infection --dev --no-update --no-interaction --verbose
-                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-update --no-interaction --verbose
+                  composer require phpunit/phpunit:${{ matrix.phpunit }} --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements

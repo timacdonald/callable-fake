@@ -53,13 +53,13 @@
             "clear",
             "@composer normalize --dry-run",
             "./vendor/bin/php-cs-fixer fix --dry-run",
-            "./vendor/bin/psalm",
+            "./vendor/bin/psalm --threads=8",
             "./vendor/bin/phpstan analyse"
         ],
         "test": [
             "clear",
             "./vendor/bin/phpunit",
-            "./vendor/bin/infection --threads=4"
+            "./vendor/bin/infection --threads=8"
         ]
     },
     "support": {
