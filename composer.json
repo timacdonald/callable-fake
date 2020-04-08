@@ -1,13 +1,13 @@
 {
     "name": "timacdonald/callable-fake",
     "description": "A testing utility that allows you to fake and capture invokations of a callable / Closure",
-    "license": "MIT",
     "keywords": [
         "callable",
         "Closure",
         "fake",
         "testing"
     ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Tim MacDonald",
@@ -15,20 +15,21 @@
             "homepage": "https://timacdonald.me"
         }
     ],
-    "support": {
-        "docs": "https://github.com/timacdonald/callable-fake/blob/master/readme.md",
-        "issues": "https://github.com/timacdonald/callable-fake/issues",
-        "source": "https://github.com/timacdonald/callable-fake/releases/latest"
-    },
     "require": {
         "php": "^7.1",
-        "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
+        "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0 || ^9.0"
     },
     "require-dev": {
+        "ergebnis/composer-normalize": "^2.3",
         "infection/infection": "^0.16.1",
         "phpstan/phpstan": "^0.12",
         "timacdonald/php-style": "dev-master",
         "vimeo/psalm": "^3.0"
+    },
+    "config": {
+        "classmap-authoritative": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -42,15 +43,16 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "config": {
-        "classmap-authoritative": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
     "scripts": {
+        "fix": [
+            "clear",
+            "@composer normalize",
+            "./vendor/bin/php-cs-fixer fix"
+        ],
         "lint": [
             "clear",
-            "./vendor/bin/php-cs-fixer fix",
+            "@composer normalize --dry-run",
+            "./vendor/bin/php-cs-fixer fix --dry-run",
             "./vendor/bin/psalm",
             "./vendor/bin/phpstan analyse"
         ],
@@ -59,5 +61,10 @@
             "./vendor/bin/phpunit",
             "./vendor/bin/infection --threads=4"
         ]
+    },
+    "support": {
+        "issues": "https://github.com/timacdonald/callable-fake/issues",
+        "source": "https://github.com/timacdonald/callable-fake/releases/latest",
+        "docs": "https://github.com/timacdonald/callable-fake/blob/master/readme.md"
     }
 }
