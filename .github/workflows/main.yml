@@ -30,7 +30,7 @@ jobs:
                   key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
 
             - name: Install dependencies
-              run: composer install --prefer-dist --no-interaction --no-suggest --verbose
+              run: composer install --no-interaction --no-suggest --verbose
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
@@ -58,7 +58,7 @@ jobs:
                   key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
 
             - name: Install dependencies
-              run: composer install --prefer-dist --no-interaction --no-suggest --verbose
+              run: composer install --no-interaction --no-suggest --verbose
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
@@ -102,9 +102,9 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer remove infection/infection --dev --verbose
-                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update --verbose
-                  composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest --verbose
+                  composer remove infection/infection --no-interaction --dev --verbose
+                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --verbose
+                  composer update --${{ matrix.dependency-version }} --no-interaction --no-suggest --verbose
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
