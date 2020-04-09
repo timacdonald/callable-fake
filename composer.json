@@ -27,7 +27,6 @@
         "vimeo/psalm": "^3.0"
     },
     "config": {
-        "classmap-authoritative": true,
         "preferred-install": "dist",
         "sort-packages": true
     },
