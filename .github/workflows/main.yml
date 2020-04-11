@@ -87,7 +87,7 @@ jobs:
             - name: Install dependencies
               run: |
                   composer remove infection/infection --dev --no-update --no-interaction --verbose
-                  composer require phpunit/phpunit:${{ matrix.phpunit }} --no-update --no-interaction --verbose
+                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements
