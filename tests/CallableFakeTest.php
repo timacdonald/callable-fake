@@ -289,4 +289,76 @@ class CallableFakeTest extends TestCase
 
         $this->assertSame([['a', 'b'], ['c', 'd']], $invocationArguments);
     }
+
+    public function testAssertCalledIndexWithExpectedSingleIndex(): void
+    {
+        $callable = new CallableFake();
+        $callable('b');
+        $callable('a');
+        $callable('b');
+
+        $callable->assertCalledIndex(static function (string $arg): bool {
+            return $arg === 'a';
+        }, 1);
+    }
+
+    public function testAssertCalledIndexWithExpectedMutlipleIndex(): void
+    {
+        $callable = new CallableFake();
+        $callable('b');
+        $callable('a');
+        $callable('b');
+
+        $callable->assertCalledIndex(static function (string $arg): bool {
+            return $arg === 'b';
+        }, [0, 2]);
+    }
+
+    public function testAssertCalledIndexWithUnexpectedSingleIndex(): void
+    {
+        $callable = new CallableFake();
+        $callable('b');
+        $callable('a');
+        $callable('b');
+
+        try {
+            $callable->assertCalledIndex(static function (string $arg): bool {
+                return $arg === 'b';
+            }, 1);
+            $this->fail();
+        } catch (ExpectationFailedException $e) {
+            $this->assertThat($e, new ExceptionMessage('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1'));
+        }
+    }
+
+    public function testAssertCalledIndexWithUnexpectedMultipleIndex(): void
+    {
+        $callable = new CallableFake();
+        $callable('b');
+        $callable('a');
+        $callable('b');
+
+        try {
+            $callable->assertCalledIndex(static function (string $arg): bool {
+                return $arg === 'b';
+            }, [1, 3]);
+            $this->fail();
+        } catch (ExpectationFailedException $e) {
+            $this->assertThat($e, new ExceptionMessage('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1, 3'));
+        }
+    }
+
+    public function testAssertCalledIndexWhenNeverCalledWithExpectedCallable(): void
+    {
+        $callable = new CallableFake();
+
+        try {
+            $callable->assertCalledIndex(static function (string $arg): bool {
+                return $arg === 'b';
+            }, 1);
+            $this->fail();
+        } catch (ExpectationFailedException $e) {
+            $this->assertThat($e, new ExceptionMessage('The callable was never called'));
+        }
+    }
 }

@@ -95,6 +95,15 @@ $callable->assertNotCalled(function (Dependency $dependency): bool {
 });
 ```
 
+### assertCalledIndex(callable $callback, int|array $index): self
+
+Ensure the callable was called in an explicit order, i.e. it was called as the 0th and 5th invocation.
+```php
+$callable->assertCalledIndex(function (Dependency $dependency): bool {
+    return Str::startsWith($dependency, 'spatie/');
+}, [0, 5]);
+```
+
 ### assertCalledTimes(callable $callback, int $times): self
 
 ```php

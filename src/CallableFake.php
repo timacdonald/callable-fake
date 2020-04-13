@@ -72,6 +72,24 @@ class CallableFake
         return $this;
     }
 
+    /**
+     * @param array|int $indexes
+     */
+    public function assertCalledIndex(callable $callback, $indexes): self
+    {
+        $this->assertCalled($callback);
+
+        $expectedIndexes = (array) $indexes;
+
+        $actualIndexes = \array_keys($this->called($callback));
+
+        $matches = \array_intersect($expectedIndexes, $actualIndexes);
+
+        Assert::assertSame(\count($matches), \count($expectedIndexes), 'The callable was not called in the expected order. Found at index: '.\implode(', ', $actualIndexes).'. Expected to be found at index: '.\implode(', ', $expectedIndexes));
+
+        return $this;
+    }
+
     public function assertTimesInvoked(int $count): self
     {
         $timesInvoked = \count($this->invocations);
