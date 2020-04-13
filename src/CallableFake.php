@@ -58,9 +58,7 @@ class CallableFake
 
     public function assertNotCalled(callable $callback): self
     {
-        $calls = $this->called($callback);
-
-        Assert::assertCount(0, $calls, 'An unexpected callable was called.');
+        Assert::assertCount(0, $this->called($callback), 'An unexpected callable was called.');
 
         return $this;
     }
