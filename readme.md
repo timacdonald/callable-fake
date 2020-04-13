@@ -98,7 +98,7 @@ $callable->assertNotCalled(function (Dependency $dependency): bool {
 ### assertCalledTimes(callable $callback, int $times): self
 
 ```php
-$callable->assertCalledTimes(function ($dependency): bool {
+$callable->assertCalledTimes(function (Dependency $dependency): bool {
     return Str::startsWith($dependency, 'spatie/');
 }, 999);
 ```
