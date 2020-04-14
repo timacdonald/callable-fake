@@ -2,7 +2,9 @@
 
 ![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fcallable-fake%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/callable-fake/master) ![Type coverage](https://shepherd.dev/github/timacdonald/callable-fake/coverage.svg) [![Latest Stable Version](https://poser.pugx.org/timacdonald/callable-fake/v/stable)](https://packagist.org/packages/timacdonald/callable-fake) [![Total Downloads](https://poser.pugx.org/timacdonald/callable-fake/downloads)](https://packagist.org/packages/timacdonald/callable-fake) [![License](https://poser.pugx.org/timacdonald/callable-fake/license)](https://packagist.org/packages/timacdonald/callable-fake)
 
-If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, testing it can create some duplicated boilerplate. This class wraps up that boilerplate and adds some named assertions. The named assertions gives you an API that is very much inspired by Laravel's service fakes. It may be a little more verbose, but it changes the language of the tests to better reflect what is going on.
+If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, this package may assist in testing. This class adds some named assertions which gives you an API that is very much inspired by Laravel's service fakes. It may be a little more verbose, but it changes the language of the tests to better reflect what is going on.
+
+It also makes it easy to assert the order of invocations, and how many times a callable has been invoked.
 
 ## Installation
 
@@ -48,8 +50,6 @@ public function testEachLoopsOverAllDependencies(): void
     $this->assertTrue($expected[1]->is($received[1]));
 }
 ```
-
-There is a bit of boilerplate in this test that can get repetitive when testing this kind of closure / callable API. This package aims to eliminate that boilerplate and also add some sytactic sugar over the assertions.
 
 ### After
 
