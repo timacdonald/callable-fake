@@ -171,6 +171,15 @@ class CallableFakeTest extends TestCase
         }
     }
 
+    public function testAssertTimesInvokedWithExpectedCount(): void
+    {
+        $fake = new CallableFake();
+        $fake();
+        $fake();
+
+        $fake->assertTimesInvoked(2);
+    }
+
     public function testAssertInvokedWhenInvoked(): void
     {
         $fake = new CallableFake();
