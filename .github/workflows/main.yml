@@ -12,7 +12,7 @@ on:
 jobs:
     lint:
         runs-on: ubuntu-latest
-        name: "Lint"
+        name: 'Lint'
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
 
             - name: test coverage
               run: |
-                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
+                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --verbose
                   bash <(curl -s https://codecov.io/bash)
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -61,7 +61,7 @@ jobs:
 
     tests:
         runs-on: ubuntu-latest
-        name: "Test suite on PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}"
+        name: 'Test suite on PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}'
         strategy:
             matrix:
                 php: ['7.1', '7.2', '7.3', '7.4']
@@ -93,8 +93,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer remove infection/infection --dev --no-update --no-interaction --verbose
-                  composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-update --no-interaction --verbose
+                  composer remove 'infection/infection' 'ergebnis/composer-normalize' 'phpstan/phpstan' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
+                  composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements
