@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace TiMacDonald\CallableFake;
 
+use function array_filter;
+use function array_intersect;
+use function array_keys;
+use function call_user_func_array;
 use Closure;
+use function count;
+use function func_get_args;
+use function implode;
 use PHPUnit\Framework\Assert;
 
 class CallableFake
@@ -19,7 +26,7 @@ class CallableFake
      */
     private $returnResolver;
 
-    public function __construct(callable $callback = null)
+    public function __construct(?callable $callback = null)
     {
         $this->returnResolver = $callback ?? static function (): void {
         };
@@ -35,11 +42,11 @@ class CallableFake
      */
     public function __invoke()
     {
-        $args = \func_get_args();
+        $args = func_get_args();
 
         $this->invocations[] = $args;
 
-        return \call_user_func_array($this->returnResolver, $args);
+        return call_user_func_array($this->returnResolver, $args);
     }
 
     public function asClosure(): Closure
@@ -65,7 +72,7 @@ class CallableFake
 
     public function assertCalledTimes(callable $callback, int $times): self
     {
-        $timesCalled = \count($this->called($callback));
+        $timesCalled = count($this->called($callback));
 
         Assert::assertSame($times, $timesCalled, "The expected callable was called {$timesCalled} times instead of the expected {$times} times.");
 
@@ -81,18 +88,18 @@ class CallableFake
 
         $expectedIndexes = (array) $indexes;
 
-        $actualIndexes = \array_keys($this->called($callback));
+        $actualIndexes = array_keys($this->called($callback));
 
-        $matches = \array_intersect($expectedIndexes, $actualIndexes);
+        $matches = array_intersect($expectedIndexes, $actualIndexes);
 
-        Assert::assertSame(\count($matches), \count($expectedIndexes), 'The callable was not called in the expected order. Found at index: '.\implode(', ', $actualIndexes).'. Expected to be found at index: '.\implode(', ', $expectedIndexes));
+        Assert::assertSame(count($matches), count($expectedIndexes), 'The callable was not called in the expected order. Found at index: '.implode(', ', $actualIndexes).'. Expected to be found at index: '.implode(', ', $expectedIndexes));
 
         return $this;
     }
 
     public function assertTimesInvoked(int $count): self
     {
-        $timesInvoked = \count($this->invocations);
+        $timesInvoked = count($this->invocations);
 
         Assert::assertSame($count, $timesInvoked, "The callable was invoked {$timesInvoked} times instead of the expected {$count} times.");
 
@@ -115,7 +122,7 @@ class CallableFake
 
     public function wasInvoked(): bool
     {
-        return \count($this->invocations) > 0;
+        return count($this->invocations) > 0;
     }
 
     public function wasNotInvoked(): bool
@@ -125,7 +132,7 @@ class CallableFake
 
     public function called(callable $callback): array
     {
-        return \array_filter($this->invocations, static function (array $arguments) use ($callback): bool {
+        return array_filter($this->invocations, static function (array $arguments) use ($callback): bool {
             return (bool) $callback(...$arguments);
         });
     }

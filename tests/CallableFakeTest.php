@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Tests;
 
 use Closure;
+use function in_array;
+use PHPUnit\Framework\Constraint\ExceptionMessage;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use TiMacDonald\CallableFake\CallableFake;
-use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Framework\Constraint\ExceptionMessage;
 
+/**
+ * @small
+ */
 class CallableFakeTest extends TestCase
 {
     public function testAssertCalledWithFalseBeforeBeingCalled(): void
@@ -293,7 +297,7 @@ class CallableFakeTest extends TestCase
         $callable('x', 'y');
 
         $invocationArguments = $callable->called(static function (string $arg) {
-            return \in_array($arg, ['a', 'c'], true);
+            return in_array($arg, ['a', 'c'], true);
         });
 
         $this->assertSame([['a', 'b'], ['c', 'd']], $invocationArguments);
