@@ -20,8 +20,8 @@
         "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0 || ^9.0"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.3",
-        "infection/infection": "^0.16.1",
+        "ergebnis/composer-normalize": "^2.0",
+        "infection/infection": "^0.16",
         "phpstan/phpstan": "^0.12",
         "timacdonald/php-style": "dev-master",
         "vimeo/psalm": "^3.0"
