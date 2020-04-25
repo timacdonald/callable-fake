@@ -43,7 +43,7 @@ jobs:
 
             - name: test coverage
               run: |
-                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --verbose
+                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
                   bash <(curl -s https://codecov.io/bash)
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
