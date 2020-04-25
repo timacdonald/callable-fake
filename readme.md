@@ -6,6 +6,11 @@ If you have an interface who's public API allows a developer to pass a Closure /
 
 It also makes it easy to assert the order of invocations, and how many times a callable has been invoked.
 
+## Version support
+
+- **PHP**: ^7.1
+- **PHPUnit**: 6.0, 7.0, 8.0, 9.0
+
 ## Installation
 
 You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/callable-fake).
