@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/header.png" alt="Callable Fake: a PHP package by Tim MacDonald"></p>
+
 # Callable / Closure testing fake
 
 ![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/callable-fake/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/callable-fake) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fcallable-fake%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/callable-fake/master) ![Type coverage](https://shepherd.dev/github/timacdonald/callable-fake/coverage.svg)
@@ -227,6 +229,13 @@ $emoji = $callable(new Dependecy(['version' => '*']));
 ## Developing and testing
 
 Although this package requires `"PHP": "^7.1"`, in order to install and develop locally, you should be running a recent version of PHP to ensure compatibility with the development tools.
+
+## Credits
+
+- [Tim MacDonald](https://github.com/timacdonald)
+- [All Contributors](../../contributors)
+
+And a special (vegi) thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
 
 ## Thanksware
 
