@@ -10,7 +10,7 @@ It also makes it easy to assert the order of invocations, and how many times a c
 
 ## Version support
 
-- **PHP**: 7.1, 7.2, 7.3, 7.4
+- **PHP**: 7.1, 7.2, 7.3, 7.4, 8.0
 - **PHPUnit**: 6.0, 7.0, 8.0, 9.0
 
 ## Installation
