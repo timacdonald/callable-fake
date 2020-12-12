@@ -20,14 +20,14 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '^8.0'
                   coverage: pcov
 
             - name: Cache dependencies
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
+                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v2
 
             - name: Install dependencies
               run: composer install --no-suggest --no-interaction --verbose
@@ -64,16 +64,20 @@ jobs:
         name: 'Test suite on PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}'
         strategy:
             matrix:
-                php: ['7.1', '7.2', '7.3', '7.4']
+                php: ['^7.1', '^7.2', '^7.3', '^7.4', '^8.0']
                 phpunit: ['^6.0', '^7.0', '^8.0', '^9.0']
                 dependency-version: ['prefer-lowest', 'prefer-stable']
                 exclude:
                     - phpunit: '^8.0'
-                      php: '7.1'
+                      php: '^7.1'
                     - phpunit: '^9.0'
-                      php: '7.1'
+                      php: '^7.1'
                     - phpunit: '^9.0'
-                      php: '7.2'
+                      php: '^7.2'
+                    - phpunit: '^6.0'
+                      php: '^8.0'
+                    - phpunit: '^7.0'
+                      php: '^8.0'
 
         steps:
             - name: checkout code
@@ -89,7 +93,7 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v1
+                  key: dependencies-${{ matrix.dependency-version }}-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v2
 
             - name: Install dependencies
               run: |
