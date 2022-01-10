@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",
-        "infection/infection": "^0.25",
+        "infection/infection": "^0.26",
         "phpstan/phpstan": "^1.2",
         "timacdonald/php-style": "dev-master",
         "vimeo/psalm": "^4.1"
