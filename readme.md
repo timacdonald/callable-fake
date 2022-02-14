@@ -2,7 +2,7 @@
 
 # Callable / Closure testing fake
 
-![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/callable-fake/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/callable-fake) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fcallable-fake%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/callable-fake/master) ![Type coverage](https://shepherd.dev/github/timacdonald/callable-fake/coverage.svg)
+![CI](https://github.com/timacdonald/callable-fake/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/callable-fake/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/callable-fake) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fcallable-fake%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/callable-fake/master)
 
 If you have an interface who's public API allows a developer to pass a Closure / callable, but causes no internal or external side-effects, as these are left up to the developer using the interface, this package may assist in testing. This class adds some named assertions which gives you an API that is very much inspired by Laravel's service fakes. It may be a little more verbose, but it changes the language of the tests to better reflect what is going on.
 
@@ -10,7 +10,7 @@ It also makes it easy to assert the order of invocations, and how many times a c
 
 ## Version support
 
-- **PHP**: 7.1, 7.2, 7.3, 7.4, 8.0
+- **PHP**: 7.1, 7.2, 7.3, 7.4, 8.0, 8.1
 - **PHPUnit**: 6.0, 7.0, 8.0, 9.0
 
 ## Installation

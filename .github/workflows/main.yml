@@ -20,7 +20,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.1'
                   coverage: pcov
 
             - name: Cache dependencies
@@ -38,9 +38,6 @@ jobs:
             - name: PHP-CS-Fixer
               run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
 
-            - name: composer normalize
-              run: composer normalize --dry-run --no-interaction --verbose
-
             - name: test coverage
               run: |
                   ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
@@ -53,9 +50,6 @@ jobs:
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
-            - name: Psalm
-              run: ./vendor/bin/psalm --shepherd --no-progress
-
             - name: PHPStan
               run: ./vendor/bin/phpstan --no-interaction --verbose
 
@@ -64,20 +58,30 @@ jobs:
         name: 'Test suite on PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Dependecies: ${{ matrix.dependency-version }}'
         strategy:
             matrix:
-                php: ['7.1', '7.2', '7.3', '7.4', '8.0']
+                php: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
                 phpunit: ['^6.0', '^7.0', '^8.0', '^9.0']
                 dependency-version: ['prefer-lowest', 'prefer-stable']
                 exclude:
+                    - phpunit: '^6.0'
+                      php: '7.3'
+                    - phpunit: '^6.0'
+                      php: '7.4'
+                    - phpunit: '^6.0'
+                      php: '8.0'
+                    - phpunit: '^6.0'
+                      php: '8.1'
+                    - phpunit: '^7.0'
+                      php: '7.4'
+                    - phpunit: '^7.0'
+                      php: '8.0'
+                    - phpunit: '^7.0'
+                      php: '8.1'
                     - phpunit: '^8.0'
                       php: '7.1'
                     - phpunit: '^9.0'
                       php: '7.1'
                     - phpunit: '^9.0'
                       php: '7.2'
-                    - phpunit: '^6.0'
-                      php: '8.0'
-                    - phpunit: '^7.0'
-                      php: '8.0'
 
         steps:
             - name: checkout code
@@ -93,13 +97,12 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v2
+                  key: dependencies-${{ matrix.dependency-version }}-phpunit-${{ matrix.phpunit }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v3
 
             - name: Install dependencies
               run: |
-                  composer remove 'infection/infection' 'ergebnis/composer-normalize' 'phpstan/phpstan' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
-                  composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-interaction --verbose
-                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
+                  composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-interaction --verbose --no-scripts
+                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose --no-scripts
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
