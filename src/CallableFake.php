@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace TiMacDonald\CallableFake;
 
+use Closure;
+use PHPUnit\Framework\Assert;
 use function array_filter;
 use function array_intersect;
 use function array_keys;
 use function call_user_func_array;
-use Closure;
 use function count;
 use function func_get_args;
 use function implode;
-use PHPUnit\Framework\Assert;
 
 class CallableFake
 {

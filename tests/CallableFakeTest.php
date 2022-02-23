@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests;
 
 use Closure;
-use function in_array;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use TiMacDonald\CallableFake\CallableFake;
+use function in_array;
 
 /**
  * @small
