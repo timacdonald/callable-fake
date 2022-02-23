@@ -26,8 +26,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true,
-            "infection/extension-installer": true
+            "bamarni/composer-bin-plugin": true
         }
     },
     "autoload": {
