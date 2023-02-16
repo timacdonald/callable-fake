@@ -6,6 +6,7 @@ namespace TiMacDonald\CallableFake;
 
 use Closure;
 use PHPUnit\Framework\Assert;
+
 use function array_filter;
 use function array_intersect;
 use function array_keys;
