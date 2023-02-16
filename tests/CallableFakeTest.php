@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use Closure;
-use PHPUnit\Framework\Constraint\ExceptionMessage;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use TiMacDonald\CallableFake\CallableFake;
@@ -27,7 +26,7 @@ class CallableFakeTest extends TestCase
             });
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was never called.'));
+            $this->assertStringStartsWith('The callable was never called.', $e->getMessage());
         }
     }
 
@@ -41,7 +40,7 @@ class CallableFakeTest extends TestCase
             });
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was never called.'));
+            $this->assertStringStartsWith('The callable was never called.', $e->getMessage());
         }
     }
 
@@ -66,7 +65,7 @@ class CallableFakeTest extends TestCase
             });
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The expected callable was not called.'));
+            $this->assertStringStartsWith('The expected callable was not called.', $e->getMessage());
         }
     }
 
@@ -99,7 +98,7 @@ class CallableFakeTest extends TestCase
             });
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('An unexpected callable was called.'));
+            $this->assertStringStartsWith('An unexpected callable was called.', $e->getMessage());
         }
     }
 
@@ -134,7 +133,7 @@ class CallableFakeTest extends TestCase
             }, 2);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The expected callable was called 1 times instead of the expected 2 times.'));
+            $this->assertStringStartsWith('The expected callable was called 1 times instead of the expected 2 times.', $e->getMessage());
         }
     }
 
@@ -159,7 +158,7 @@ class CallableFakeTest extends TestCase
             }, 2);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The expected callable was called 0 times instead of the expected 2 times.'));
+            $this->assertStringStartsWith('The expected callable was called 0 times instead of the expected 2 times.', $e->getMessage());
         }
     }
 
@@ -172,7 +171,7 @@ class CallableFakeTest extends TestCase
             $fake->assertTimesInvoked(2);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was invoked 1 times instead of the expected 2 times.'));
+            $this->assertStringStartsWith('The callable was invoked 1 times instead of the expected 2 times.', $e->getMessage());
         }
     }
 
@@ -201,7 +200,7 @@ class CallableFakeTest extends TestCase
             $fake->assertInvoked();
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was not invoked.'));
+            $this->assertStringStartsWith('The callable was not invoked.', $e->getMessage());
         }
     }
 
@@ -214,7 +213,7 @@ class CallableFakeTest extends TestCase
             $fake->assertNotInvoked();
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was invoked.'));
+            $this->assertStringStartsWith('The callable was invoked.', $e->getMessage());
         }
     }
 
@@ -341,7 +340,7 @@ class CallableFakeTest extends TestCase
             }, 1);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1'));
+            $this->assertStringStartsWith('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1', $e->getMessage());
         }
     }
 
@@ -358,7 +357,7 @@ class CallableFakeTest extends TestCase
             }, [1, 3]);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1, 3'));
+            $this->assertStringStartsWith('The callable was not called in the expected order. Found at index: 0, 2. Expected to be found at index: 1, 3', $e->getMessage());
         }
     }
 
@@ -372,7 +371,7 @@ class CallableFakeTest extends TestCase
             }, 1);
             $this->fail();
         } catch (ExpectationFailedException $e) {
-            $this->assertThat($e, new ExceptionMessage('The callable was never called'));
+            $this->assertStringStartsWith('The callable was never called', $e->getMessage());
         }
     }
 }
