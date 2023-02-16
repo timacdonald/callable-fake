@@ -37,7 +37,7 @@ jobs:
 
             - name: test coverage
               run: |
-                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
+                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --verbose
                   bash <(curl -s https://codecov.io/bash)
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -85,4 +85,4 @@ jobs:
               run: composer check-platform-reqs --verbose
 
             - name: Run tests
-              run: ./vendor/bin/phpunit --debug --verbose
+              run: ./vendor/bin/phpunit --verbose
