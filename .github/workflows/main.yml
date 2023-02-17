@@ -32,13 +32,13 @@ jobs:
                   coverage: pcov
 
             - name: Install dependencies
-              run: composer install --no-suggest --no-interaction --verbose
+              run: composer install
 
             - name: Check platform requirements
-              run: composer check-platform-reqs --verbose
+              run: composer check-platform-reqs
 
             - name: PHP-CS-Fixer
-              run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
+              run: ./vendor/bin/php-cs-fixer fix --dry-run
 
             - name: test coverage
               run: |
@@ -48,12 +48,12 @@ jobs:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
             - name: Infection
-              run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-progress --no-interaction --verbose
+              run: ./vendor/bin/infection --min-msi=100
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
             - name: PHPStan
-              run: ./vendor/bin/phpstan --no-interaction --verbose
+              run: ./vendor/bin/phpstan
 
     tests:
         runs-on: ubuntu-latest
@@ -86,17 +86,17 @@ jobs:
                   coverage: none
 
             - name: Require the dependency matrix version
-              run: composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-interaction --verbose --no-scripts
+              run: composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-scripts
 
             - name: Setup PHPUnit configuration
               if: matrix.phpunit == '^9.0'
               run: cp --force phpunit.9.xml.dist phpunit.xml.dist
 
             - name: Install dependencies
-              run: composer update --${{ matrix.prefer }} --no-suggest --no-interaction --verbose --no-scripts
+              run: composer update --${{ matrix.prefer }} --no-scripts
 
             - name: Check platform requirements
-              run: composer check-platform-reqs --verbose
+              run: composer check-platform-reqs
 
             - name: Run tests
               run: ./vendor/bin/phpunit
