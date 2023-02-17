@@ -78,6 +78,10 @@ jobs:
             - name: Require the dependency matrix version
               run: composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-interaction --verbose --no-scripts
 
+            - name: Setup PHPUnit configuration
+              if: matrix.phpunit == '^9.0'
+              run: cp --force phpunit.9.xml.dist phpunit.xml.dist
+
             - name: Install dependencies
               run: composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose --no-scripts
 
