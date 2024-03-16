@@ -10,8 +10,8 @@ It also makes it easy to assert the order of invocations, and how many times a c
 
 ## Version support
 
-- **PHP**: 8.1, 8.2
-- **PHPUnit**: 9.0, 10.0
+- **PHP**: 8.1, 8.2, 8.3
+- **PHPUnit**: 9.0, 10.0, 11.0
 
 You may find support for older versions in [previous releases](https://github.com/timacdonald/callable-fake/releases].
 
