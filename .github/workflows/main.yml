@@ -76,7 +76,6 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
-          tools: infection, pint, phpstan
 
       - name: Install dependencies
         run: |
