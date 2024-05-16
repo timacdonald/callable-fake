@@ -6,13 +6,6 @@ If you have an interface who's public API allows a developer to pass a Closure /
 
 It also makes it easy to assert the order of invocations, and how many times a callable has been invoked.
 
-## Version support
-
-- **PHP**: 8.1, 8.2, 8.3
-- **PHPUnit**: 9.0, 10.0, 11.0
-
-You may find support for older versions in [previous releases](https://github.com/timacdonald/callable-fake/releases].
-
 ## Installation
 
 You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/callable-fake).
@@ -225,10 +218,6 @@ $emoji = $callable(new Dependecy(['version' => '*']));
 
 // $emoji === '🤠';
 ```
-
-## Developing and testing
-
-Although this package requires `"PHP": "^7.1"`, in order to install and develop locally, you should be running a recent version of PHP to ensure compatibility with the development tools.
 
 ## Credits
 
