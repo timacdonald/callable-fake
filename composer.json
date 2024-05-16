@@ -19,11 +19,6 @@
         "php": "^8.1",
         "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0"
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.0",
-        "infection/infection": "^0.28.1",
-        "phpstan/phpstan": "^1.4"
-    },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
@@ -43,19 +38,6 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "scripts": {
-        "fix": [
-            "./vendor/bin/php-cs-fixer fix"
-        ],
-        "lint": [
-            "./vendor/bin/php-cs-fixer fix --dry-run",
-            "./vendor/bin/phpstan analyse"
-        ],
-        "test": [
-            "./vendor/bin/phpunit",
-            "./vendor/bin/infection --threads=8"
-        ]
-    },
     "support": {
         "issues": "https://github.com/timacdonald/callable-fake/issues",
         "source": "https://github.com/timacdonald/callable-fake/releases/latest",
