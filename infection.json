@@ -5,10 +5,7 @@
         ]
     },
     "logs": {
-        "text": "infection.log",
-        "stryker": {
-            "badge": "master"
-        }
+        "text": "infection.log"
     },
     "mutators": {
         "@default": true
