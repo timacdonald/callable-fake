@@ -11,9 +11,6 @@ use TiMacDonald\CallableFake\CallableFake;
 
 use function in_array;
 
-/**
- * @small
- */
 class CallableFakeTest extends TestCase
 {
     public function testAssertCalledWithFalseBeforeBeingCalled(): void
