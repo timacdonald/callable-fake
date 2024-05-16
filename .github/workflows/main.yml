@@ -53,6 +53,9 @@ jobs:
       matrix:
         php-versions: ['8.1', '8.2', '8.3']
         phpunit-versions: ['^9.0', '^10.0', '^11.0']
+        exclude:
+          - php-versions: '8.1'
+            phpunit-versions: '^11.0'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
