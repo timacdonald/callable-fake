@@ -20,9 +20,9 @@
         "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0"
     },
     "require-dev": {
-        "infection/infection": "^0.26",
-        "phpstan/phpstan": "^1.4",
-        "friendsofphp/php-cs-fixer": "^3.6"
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "infection/infection": "^0.28.1",
+        "phpstan/phpstan": "^1.4"
     },
     "config": {
         "preferred-install": "dist",
