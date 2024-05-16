@@ -50,7 +50,7 @@ class CallableFakeTest extends TestCase
         $fake('a');
 
         $fake->assertCalled(static function (string $arg) {
-            return 'a' === $arg;
+            return $arg === 'a';
         });
     }
 

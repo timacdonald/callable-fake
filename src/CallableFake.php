@@ -81,7 +81,7 @@ class CallableFake
     }
 
     /**
-     * @param array<int, int>|int $indexes
+     * @param  array<int, int>|int  $indexes
      */
     public function assertCalledIndex(callable $callback, $indexes): self
     {

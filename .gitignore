@@ -5,4 +5,3 @@
 /.php_cs.cache
 /coverage
 /infection.log
-/.php-cs-fixer.cache

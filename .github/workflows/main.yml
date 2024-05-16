@@ -30,7 +30,7 @@ jobs:
               with:
                   php-version: '8.3'
                   coverage: pcov
-                  tools: infection, php-cs-fixer, phpstan
+                  tools: infection, pint, phpstan
 
             - name: Install dependencies
               run: composer install
@@ -38,8 +38,8 @@ jobs:
             - name: Check platform requirements
               run: composer check-platform-reqs
 
-            - name: PHP-CS-Fixer
-              run: php-cs-fixer fix --dry-run
+            - name: Pint
+              run: pint --test
 
             - name: Infection
               run: infection --min-msi=100
