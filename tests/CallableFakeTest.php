@@ -1,15 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests;
 
 use Closure;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use TiMacDonald\CallableFake\CallableFake;
-
-use function in_array;
 
 class CallableFakeTest extends TestCase
 {
@@ -18,7 +14,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
 
         try {
-            $fake->assertCalled(static function (string $arg) {
+            $fake->assertCalled(function (string $arg) {
                 return $arg === 'x';
             });
             $this->fail();
@@ -32,7 +28,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
 
         try {
-            $fake->assertCalled(static function (string $arg) {
+            $fake->assertCalled(function (string $arg) {
                 return $arg === 'a';
             });
             $this->fail();
@@ -46,7 +42,7 @@ class CallableFakeTest extends TestCase
         $fake = new callablefake();
         $fake('a');
 
-        $fake->assertCalled(static function (string $arg) {
+        $fake->assertCalled(function (string $arg) {
             return $arg === 'a';
         });
     }
@@ -57,7 +53,7 @@ class CallableFakeTest extends TestCase
         $fake('a');
 
         try {
-            $fake->assertCalled(static function (string $arg) {
+            $fake->assertCalled(function (string $arg) {
                 return $arg === 'x';
             });
             $this->fail();
@@ -70,7 +66,7 @@ class CallableFakeTest extends TestCase
     {
         $fake = new CallableFake();
 
-        $fake->assertNotCalled(static function (string $arg) {
+        $fake->assertNotCalled(function (string $arg) {
             return $arg === 'a';
         });
     }
@@ -79,7 +75,7 @@ class CallableFakeTest extends TestCase
     {
         $fake = new CallableFake();
 
-        $fake->assertNotCalled(static function (string $arg) {
+        $fake->assertNotCalled(function (string $arg) {
             return $arg === 'x';
         });
     }
@@ -90,7 +86,7 @@ class CallableFakeTest extends TestCase
         $fake('a');
 
         try {
-            $fake->assertNotCalled(static function (string $arg) {
+            $fake->assertNotCalled(function (string $arg) {
                 return $arg === 'a';
             });
             $this->fail();
@@ -104,7 +100,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
         $fake('a');
 
-        $fake->assertNotCalled(static function (string $arg) {
+        $fake->assertNotCalled(function (string $arg) {
             return $arg === 'x';
         });
     }
@@ -114,7 +110,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
         $fake('a');
 
-        $fake->assertCalledTimes(static function (string $arg) {
+        $fake->assertCalledTimes(function (string $arg) {
             return $arg === 'a';
         }, 1);
     }
@@ -125,7 +121,7 @@ class CallableFakeTest extends TestCase
         $fake('a');
 
         try {
-            $fake->assertCalledTimes(static function (string $arg) {
+            $fake->assertCalledTimes(function (string $arg) {
                 return $arg === 'a';
             }, 2);
             $this->fail();
@@ -139,7 +135,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
         $fake('a');
 
-        $fake->assertCalledTimes(static function (string $arg) {
+        $fake->assertCalledTimes(function (string $arg) {
             return $arg === 'x';
         }, 0);
     }
@@ -150,7 +146,7 @@ class CallableFakeTest extends TestCase
         $fake('a');
 
         try {
-            $fake->assertCalledTimes(static function (string $arg) {
+            $fake->assertCalledTimes(function (string $arg) {
                 return $arg === 'x';
             }, 2);
             $this->fail();
@@ -225,11 +221,11 @@ class CallableFakeTest extends TestCase
     {
         $fake = new CallableFake();
 
-        (static function (Closure $callback): void {
+        (function (Closure $callback): void {
             $callback('a');
         })($fake->asClosure());
 
-        $fake->assertCalled(static function (string $arg) {
+        $fake->assertCalled(function (string $arg) {
             return $arg === 'a';
         });
     }
@@ -239,7 +235,7 @@ class CallableFakeTest extends TestCase
         $fake = new CallableFake();
         $fake('a');
 
-        $fake->assertCalled(static function () {
+        $fake->assertCalled(function () {
             return 1;
         });
     }
@@ -248,14 +244,14 @@ class CallableFakeTest extends TestCase
     {
         $fake = new CallableFake();
 
-        $fake->assertNotCalled(static function () {
+        $fake->assertNotCalled(function () {
             return 0;
         });
     }
 
     public function testCanSpecifyInvocationReturnTypes(): void
     {
-        $fake = CallableFake::withReturnResolver(static function (int $index): string {
+        $fake = CallableFake::withReturnResolver(function (int $index): string {
             return [
                 0 => 'a',
                 1 => 'b',
@@ -293,7 +289,7 @@ class CallableFakeTest extends TestCase
         $callable('c', 'd');
         $callable('x', 'y');
 
-        $invocationArguments = $callable->called(static function (string $arg) {
+        $invocationArguments = $callable->called(function (string $arg) {
             return in_array($arg, ['a', 'c'], true);
         });
 
@@ -307,7 +303,7 @@ class CallableFakeTest extends TestCase
         $callable('a');
         $callable('b');
 
-        $callable->assertCalledIndex(static function (string $arg): bool {
+        $callable->assertCalledIndex(function (string $arg): bool {
             return $arg === 'a';
         }, 1);
     }
@@ -319,7 +315,7 @@ class CallableFakeTest extends TestCase
         $callable('a');
         $callable('b');
 
-        $callable->assertCalledIndex(static function (string $arg): bool {
+        $callable->assertCalledIndex(function (string $arg): bool {
             return $arg === 'b';
         }, [0, 2]);
     }
@@ -332,7 +328,7 @@ class CallableFakeTest extends TestCase
         $callable('b');
 
         try {
-            $callable->assertCalledIndex(static function (string $arg): bool {
+            $callable->assertCalledIndex(function (string $arg): bool {
                 return $arg === 'b';
             }, 1);
             $this->fail();
@@ -349,7 +345,7 @@ class CallableFakeTest extends TestCase
         $callable('b');
 
         try {
-            $callable->assertCalledIndex(static function (string $arg): bool {
+            $callable->assertCalledIndex(function (string $arg): bool {
                 return $arg === 'b';
             }, [1, 3]);
             $this->fail();
@@ -363,7 +359,7 @@ class CallableFakeTest extends TestCase
         $callable = new CallableFake();
 
         try {
-            $callable->assertCalledIndex(static function (string $arg): bool {
+            $callable->assertCalledIndex(function (string $arg): bool {
                 return $arg === 'b';
             }, 1);
             $this->fail();

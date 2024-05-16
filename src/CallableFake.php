@@ -1,19 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace TiMacDonald\CallableFake;
 
 use Closure;
 use PHPUnit\Framework\Assert;
-
-use function array_filter;
-use function array_intersect;
-use function array_keys;
-use function call_user_func_array;
-use function count;
-use function func_get_args;
-use function implode;
 
 class CallableFake
 {
@@ -29,7 +19,8 @@ class CallableFake
 
     public function __construct(?callable $callback = null)
     {
-        $this->returnResolver = $callback ?? static function (): void {
+        $this->returnResolver = $callback ?? function (): void {
+            //
         };
     }
 
@@ -136,7 +127,7 @@ class CallableFake
      */
     public function called(callable $callback): array
     {
-        return array_filter($this->invocations, static function (array $arguments) use ($callback): bool {
+        return array_filter($this->invocations, function (array $arguments) use ($callback): bool {
             return (bool) $callback(...$arguments);
         });
     }
