@@ -8,10 +8,10 @@ It also makes it easy to assert the order of invocations, and how many times a c
 
 ## Installation
 
-You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/callable-fake).
+You can install the package using [composer](https://getcomposer.org/):
 
 ```
-$ composer require timacdonald/callable-fake --dev
+composer require timacdonald/callable-fake --dev
 ```
 
 ## Basic usage
