@@ -19,13 +19,6 @@
         "php": "^8.1",
         "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0"
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "infection/extension-installer": true
-        }
-    },
     "autoload": {
         "psr-4": {
             "TiMacDonald\\CallableFake\\": "src"
@@ -36,11 +29,10 @@
             "Tests\\": "tests/"
         }
     },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "support": {
-        "issues": "https://github.com/timacdonald/callable-fake/issues",
-        "source": "https://github.com/timacdonald/callable-fake/releases/latest",
-        "docs": "https://github.com/timacdonald/callable-fake/blob/master/readme.md"
-    }
+    "prefer-stable": true
 }
