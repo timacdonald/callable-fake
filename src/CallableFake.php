@@ -18,7 +18,7 @@ use function implode;
 class CallableFake
 {
     /**
-     * @var array
+     * @var array<int, array<int, mixed>>
      */
     private $invocations = [];
 
@@ -81,7 +81,7 @@ class CallableFake
     }
 
     /**
-     * @param array|int $indexes
+     * @param array<int, int>|int $indexes
      */
     public function assertCalledIndex(callable $callback, $indexes): self
     {
@@ -131,6 +131,9 @@ class CallableFake
         return ! $this->wasInvoked();
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     public function called(callable $callback): array
     {
         return array_filter($this->invocations, static function (array $arguments) use ($callback): bool {

@@ -7,9 +7,9 @@ on:
         branches: [ master ]
 
 jobs:
-    lint:
+    test:
         runs-on: ubuntu-latest
-        name: 'Lint'
+        name: 'Test'
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.1'
+                  php-version: '8.3'
                   coverage: pcov
 
             - name: Install dependencies
@@ -40,66 +40,8 @@ jobs:
             - name: PHP-CS-Fixer
               run: ./vendor/bin/php-cs-fixer fix --dry-run
 
-            - name: test coverage
-              run: |
-                  ./vendor/bin/phpunit --coverage-clover=coverage.xml
-                  bash <(curl -s https://codecov.io/bash)
-              env:
-                  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-            # - name: Infection
-            #   run: ./vendor/bin/infection --min-msi=100
-            #   env:
-            #       INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
+            - name: Infection
+              run: ./vendor/bin/infection --min-msi=100
 
             - name: PHPStan
               run: ./vendor/bin/phpstan
-
-    tests:
-        runs-on: ubuntu-latest
-        name: 'PHP: ${{ matrix.php }}; PHPUnit: ${{ matrix.phpunit }}; Prefer: ${{ matrix.prefer }}'
-        strategy:
-            matrix:
-                php: ['8.1', '8.2', '8.3']
-                phpunit: ['^9.0', '^10.0', '^11.0']
-                prefer: ['prefer-lowest', 'prefer-stable']
-                exclude:
-                  - phpunit: '^11.0'
-                    php: '8.1'
-
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v3
-
-            - name: Get composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v3
-              with:
-                path: ${{ steps.composer-cache.outputs.dir }}
-                key: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
-                restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-
-            - name: Require the dependency matrix version
-              run: composer require 'phpunit/phpunit:${{ matrix.phpunit }}' --no-update --no-scripts
-
-            - name: Setup PHPUnit configuration
-              if: matrix.phpunit == '^9.0'
-              run: cp --force phpunit.9.xml.dist phpunit.xml.dist
-
-            - name: Install dependencies
-              run: composer update --${{ matrix.prefer }} --no-scripts
-
-            - name: Check platform requirements
-              run: composer check-platform-reqs
-
-            - name: Run tests
-              run: ./vendor/bin/phpunit
