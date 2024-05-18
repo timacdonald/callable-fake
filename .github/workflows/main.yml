@@ -46,6 +46,7 @@ jobs:
 
       - name: PHPStan
         run: phpstan
+
   tests:
     runs-on: ubuntu-latest
     name: 'PHP ${{ matrix.php }} PHPUnit ${{ matrix.phpunit }}'
@@ -83,4 +84,6 @@ jobs:
           composer update
 
       - name: PHPUnit
-        run: ./vendor/bin/phpunit --do-not-cache-result
+        run: |
+          ./vendor/bin/phpunit --do-not-cache-result --coverage-php ./coverage.php
+          cat ./coverage.php
