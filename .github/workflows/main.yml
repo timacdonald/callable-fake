@@ -80,7 +80,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require phpunit/phpunit:^${{ matrix.phpunit }} --no-update
+          composer require --no-update \
+            phpunit/phpunit:^${{ matrix.phpunit }}
           composer update
 
       - name: Configure PHPUnit
