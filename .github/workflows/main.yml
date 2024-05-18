@@ -76,7 +76,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: pcov
+          coverage: none
 
       - name: Install dependencies
         run: |
@@ -84,6 +84,4 @@ jobs:
           composer update
 
       - name: PHPUnit
-        run: |
-          ./vendor/bin/phpunit --do-not-cache-result --coverage-php ./coverage.php
-          cat ./coverage.php
+        run: ./vendor/bin/phpunit --do-not-cache-result
