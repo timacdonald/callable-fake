@@ -53,10 +53,10 @@ jobs:
     strategy:
       matrix:
         php: ['8.1', '8.2', '8.3']
-        phpunit: ['9.0', '10.0', '11.0']
+        phpunit: ['9', '10', '11']
         exclude:
           - php: '8.1'
-            phpunit: '11.0'
+            phpunit: '11'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -84,8 +84,7 @@ jobs:
           composer update
 
       - name: Configure PHPUnit
-        if: hashFiles('./phpunit.${{ matrix.phpunit }}.xml')
-        run: cp ./phpunit.${{ matrix.phpunit }}.xml > ./phpunit.xml
+        run: "[ -f './phpunit.${{ matrix.phpunit }}.xml' ] && cp ./phpunit.${{ matrix.phpunit }}.xml > ./phpunit.xml"
 
       - name: PHPUnit
         run: ./vendor/bin/phpunit --do-not-cache-result
