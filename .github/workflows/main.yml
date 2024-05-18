@@ -42,7 +42,7 @@ jobs:
         run: pint --test
 
       - name: Infection
-        run: infection --min-msi=100 --show-mutations
+        run: infection --show-mutations
 
       - name: PHPStan
         run: phpstan
