@@ -84,7 +84,7 @@ jobs:
           composer update
 
       - name: Configure PHPUnit
-        run: "if [ -f './phpunit.${{ matrix.phpunit }}.xml' ]; then; cp ./phpunit.${{ matrix.phpunit }}.xml ./phpunit.xml; fi"
+        run: "if [ -f './phpunit.${{ matrix.phpunit }}.xml' ]; then cp ./phpunit.${{ matrix.phpunit }}.xml ./phpunit.xml; fi"
 
       - name: PHPUnit
         run: ./vendor/bin/phpunit --do-not-cache-result
