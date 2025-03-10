@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  checks:
-    name: Check
+  static-analysis:
+    name: Static analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -25,15 +25,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-php-8.2-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php8.2-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          coverage: pcov
-          tools: infection, pint, phpstan
+          tools: infection, phpstan
+          coverage: none
 
       - name: Install dependencies
         run: composer install
@@ -41,14 +41,40 @@ jobs:
       - name: Check platform requirements
         run: composer check-platform-reqs
 
-      - name: Pint
-        run: pint --test
-
       - name: Infection
         run: infection --show-mutations
 
       - name: PHPStan
         run: phpstan
+
+  code-style:
+    name: Code style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-8.4-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-8.4-composer-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          tools: pint
+          coverage: none
+
+      - name: Pint
+        run: pint --test
 
   tests:
     runs-on: ubuntu-latest
@@ -89,4 +115,4 @@ jobs:
         run: if [ -f "./phpunit.${{ matrix.phpunit }}.xml" ]; then cp ./phpunit.${{ matrix.phpunit }}.xml ./phpunit.xml; fi
 
       - name: PHPUnit
-        run: ./vendor/bin/phpunit --do-not-cache-result
+        run: ./vendor/bin/phpunit
