@@ -9,7 +9,7 @@
         "@default": true,
         "CastBool": {
             "ignoreSourceCodeByRegex": [
-                "return \(bool\) \$callback\(\.\.\.\$arguments\);"
+                "return \\(bool\\) \\$callback\\(\\.\\.\\.\\$arguments\\);"
             ],
         }
     },
