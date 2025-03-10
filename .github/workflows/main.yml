@@ -32,7 +32,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          tools: infection, phpstan
+          tools: phpstan
           coverage: none
 
       - name: Install dependencies
@@ -41,11 +41,9 @@ jobs:
       - name: Check platform requirements
         run: composer check-platform-reqs
 
-      - name: Infection
-        run: infection --show-mutations
-
       - name: PHPStan
         run: phpstan
+
 
   code-style:
     name: Code style
@@ -75,6 +73,40 @@ jobs:
 
       - name: Pint
         run: pint --test
+
+
+  mutation-tests:
+    name: Mutation tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-8.4-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php8.4-composer-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          tools: infection
+          coverage: pcov
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Infection
+        run: infection --show-mutations
+
 
   tests:
     runs-on: ubuntu-latest
