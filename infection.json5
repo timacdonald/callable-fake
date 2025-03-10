@@ -8,8 +8,8 @@
     "mutators": {
         "@default": true,
         "CastBool": {
-            "ignore": [
-                "return (bool) $callback(...$arguments);"
+            "ignoreSourceCodeByRegex": [
+                "return \(bool\) \$callback\(\.\.\.\$arguments\);"
             ],
         }
     },
