@@ -2,14 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   checks:
+    name: Check
     runs-on: ubuntu-latest
-    name: 'Check'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,13 +25,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles("**/composer.json") }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: 8.2
           coverage: pcov
           tools: infection, pint, phpstan
 
@@ -49,14 +52,12 @@ jobs:
 
   tests:
     runs-on: ubuntu-latest
-    name: 'PHP ${{ matrix.php }} PHPUnit ${{ matrix.phpunit }}'
+    name: PHP ${{ matrix.php }} PHPUnit ${{ matrix.phpunit }}
     strategy:
       matrix:
-        php: ['8.1', '8.2', '8.3']
-        phpunit: ['10', '11']
-        exclude:
-          - php: '8.1'
-            phpunit: '11'
+        php: [8.2, 8.3, 8.4]
+        phpunit: [10, 11, 12]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -69,7 +70,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-composer-${{ hashFiles("**/composer.json") }}
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-composer-
 
       - name: Setup PHP
@@ -85,7 +86,7 @@ jobs:
           composer update
 
       - name: Configure PHPUnit
-        run: "if [ -f './phpunit.${{ matrix.phpunit }}.xml' ]; then cp ./phpunit.${{ matrix.phpunit }}.xml ./phpunit.xml; fi"
+        run: if [ -f "./phpunit.${{ matrix.phpunit }}.xml" ]; then cp ./phpunit.${{ matrix.phpunit }}.xml ./phpunit.xml; fi
 
       - name: PHPUnit
         run: ./vendor/bin/phpunit --do-not-cache-result
