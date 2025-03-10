@@ -128,7 +128,7 @@ class CallableFake
     public function called(callable $callback): array
     {
         return array_filter($this->invocations, function (array $arguments) use ($callback): bool {
-            return $callback(...$arguments);
+            return (bool) $callback(...$arguments);
         });
     }
 }

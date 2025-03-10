@@ -9,9 +9,9 @@ use TiMacDonald\CallableFake\CallableFake;
 
 class CallableFakeTest extends TestCase
 {
-    public function testAssertCalledWithFalseBeforeBeingCalled(): void
+    public function test_assert_called_with_false_before_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         try {
             $fake->assertCalled(function (string $arg) {
@@ -23,9 +23,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertCalledWithTrueBeforeBeingCalled(): void
+    public function test_assert_called_with_true_before_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         try {
             $fake->assertCalled(function (string $arg) {
@@ -37,9 +37,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertCalledWithTrueAfterBeingCalled(): void
+    public function test_assert_called_with_true_after_being_called(): void
     {
-        $fake = new callablefake();
+        $fake = new callablefake;
         $fake('a');
 
         $fake->assertCalled(function (string $arg) {
@@ -47,9 +47,9 @@ class CallableFakeTest extends TestCase
         });
     }
 
-    public function testAssertCalledWithFalseAfterBeingCalled(): void
+    public function test_assert_called_with_false_after_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         try {
@@ -62,27 +62,27 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertNotCalledWithTrueBeforeBeingCalled(): void
+    public function test_assert_not_called_with_true_before_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         $fake->assertNotCalled(function (string $arg) {
             return $arg === 'a';
         });
     }
 
-    public function testAssertNotCalledWithFalseBeforeBeingCalled(): void
+    public function test_assert_not_called_with_false_before_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         $fake->assertNotCalled(function (string $arg) {
             return $arg === 'x';
         });
     }
 
-    public function testAssertNotCalledWithTrueAfterBeingCalled(): void
+    public function test_assert_not_called_with_true_after_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         try {
@@ -95,9 +95,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertNotCalledWithFalseAfterBeingCalled(): void
+    public function test_assert_not_called_with_false_after_being_called(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         $fake->assertNotCalled(function (string $arg) {
@@ -105,9 +105,9 @@ class CallableFakeTest extends TestCase
         });
     }
 
-    public function testAssertCalledTimesWithTrueAndExpectedCount(): void
+    public function test_assert_called_times_with_true_and_expected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         $fake->assertCalledTimes(function (string $arg) {
@@ -115,9 +115,9 @@ class CallableFakeTest extends TestCase
         }, 1);
     }
 
-    public function testAssertCalledTimesWithTrueAndUnexpectedCount(): void
+    public function test_assert_called_times_with_true_and_unexpected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         try {
@@ -130,9 +130,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertCalledTimesWithFalseAndExpectedCount(): void
+    public function test_assert_called_times_with_false_and_expected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         $fake->assertCalledTimes(function (string $arg) {
@@ -140,9 +140,9 @@ class CallableFakeTest extends TestCase
         }, 0);
     }
 
-    public function testAssertCalledTimesWithFalseAndUnexpectedCount(): void
+    public function test_assert_called_times_with_false_and_unexpected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         try {
@@ -155,9 +155,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertTimesInvokedWithUnexpectedCount(): void
+    public function test_assert_times_invoked_with_unexpected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake();
 
         try {
@@ -168,26 +168,26 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertTimesInvokedWithExpectedCount(): void
+    public function test_assert_times_invoked_with_expected_count(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake();
         $fake();
 
         $fake->assertTimesInvoked(2);
     }
 
-    public function testAssertInvokedWhenInvoked(): void
+    public function test_assert_invoked_when_invoked(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake();
 
         $fake->assertInvoked();
     }
 
-    public function testAssertInvokedWhenNotInvoked(): void
+    public function test_assert_invoked_when_not_invoked(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         try {
             $fake->assertInvoked();
@@ -197,9 +197,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertNotInvokedWhenInvoked(): void
+    public function test_assert_not_invoked_when_invoked(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake();
 
         try {
@@ -210,16 +210,16 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertNotInvokedWhenNotInvoked(): void
+    public function test_assert_not_invoked_when_not_invoked(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         $fake->assertNotInvoked();
     }
 
-    public function testCanUseAsAClosure(): void
+    public function test_can_use_as_a_closure(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         (function (Closure $callback): void {
             $callback('a');
@@ -230,9 +230,9 @@ class CallableFakeTest extends TestCase
         });
     }
 
-    public function testReturnValuesCanBeTruthy(): void
+    public function test_return_values_can_be_truthy(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
         $fake('a');
 
         $fake->assertCalled(function () {
@@ -240,16 +240,16 @@ class CallableFakeTest extends TestCase
         });
     }
 
-    public function testReturnValuesCanBeFalsy(): void
+    public function test_return_values_can_be_falsy(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         $fake->assertNotCalled(function () {
             return 0;
         });
     }
 
-    public function testCanSpecifyInvocationReturnTypes(): void
+    public function test_can_specify_invocation_return_types(): void
     {
         $fake = CallableFake::withReturnResolver(function (int $index): string {
             return [
@@ -262,16 +262,16 @@ class CallableFakeTest extends TestCase
         $this->assertSame('b', $fake(1));
     }
 
-    public function testNullDefaultInvocationReturnType(): void
+    public function test_null_default_invocation_return_type(): void
     {
-        $fake = new CallableFake();
+        $fake = new CallableFake;
 
         $this->assertNull($fake(0));
     }
 
-    public function testWasInvokedWhenInvoked(): void
+    public function test_was_invoked_when_invoked(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
 
         $this->assertFalse($callable->wasInvoked());
         $this->assertTrue($callable->wasNotInvoked());
@@ -282,9 +282,9 @@ class CallableFakeTest extends TestCase
         $this->assertFalse($callable->wasNotInvoked());
     }
 
-    public function testCanGetInvocationArguments(): void
+    public function test_can_get_invocation_arguments(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
         $callable('a', 'b');
         $callable('c', 'd');
         $callable('x', 'y');
@@ -296,9 +296,9 @@ class CallableFakeTest extends TestCase
         $this->assertSame([['a', 'b'], ['c', 'd']], $invocationArguments);
     }
 
-    public function testAssertCalledIndexWithExpectedSingleIndex(): void
+    public function test_assert_called_index_with_expected_single_index(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
         $callable('b');
         $callable('a');
         $callable('b');
@@ -308,9 +308,9 @@ class CallableFakeTest extends TestCase
         }, 1);
     }
 
-    public function testAssertCalledIndexWithExpectedMutlipleIndex(): void
+    public function test_assert_called_index_with_expected_mutliple_index(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
         $callable('b');
         $callable('a');
         $callable('b');
@@ -320,9 +320,9 @@ class CallableFakeTest extends TestCase
         }, [0, 2]);
     }
 
-    public function testAssertCalledIndexWithUnexpectedSingleIndex(): void
+    public function test_assert_called_index_with_unexpected_single_index(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
         $callable('b');
         $callable('a');
         $callable('b');
@@ -337,9 +337,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertCalledIndexWithUnexpectedMultipleIndex(): void
+    public function test_assert_called_index_with_unexpected_multiple_index(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
         $callable('b');
         $callable('a');
         $callable('b');
@@ -354,9 +354,9 @@ class CallableFakeTest extends TestCase
         }
     }
 
-    public function testAssertCalledIndexWhenNeverCalledWithExpectedCallable(): void
+    public function test_assert_called_index_when_never_called_with_expected_callable(): void
     {
-        $callable = new CallableFake();
+        $callable = new CallableFake;
 
         try {
             $callable->assertCalledIndex(function (string $arg): bool {
